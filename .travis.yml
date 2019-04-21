@@ -1,0 +1,33 @@
+language: ruby
+dist: trusty
+sudo: required
+rvm:
+- 2.4.3
+
+env:
+  global:
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true # prevents nokogiri from downloading slooooow libraries
+
+install:
+  - gem update --system
+  - bundle install --jobs=3 --retry=3 --deployment --path=${BUNDLE_PATH:-vendor/bundle}
+
+before_script:
+- psql -c 'create database humanize_test;' -U postgres
+- bundle exec rake db:migrate
+- gem install chromium
+- wget https://chromedriver.storage.googleapis.com/2.46/chromedriver_linux64.zip
+- sudo add-apt-repository -y ppa:mc3man/trusty-media
+- sudo apt-get update
+- unzip chromedriver_linux64.zip
+- sudo apt-get install libnss3
+- sudo cp chromedriver /usr/local/bin/.
+- sudo chmod +x /usr/local/bin/chromedriver
+
+addons:
+  postgresql: '9.5'
+  chrome: stable
+services:
+- postgresql
+- xvfb
+
