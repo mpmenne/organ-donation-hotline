@@ -1,0 +1,2 @@
+class IncomingCall < ApplicationRecord
+end
