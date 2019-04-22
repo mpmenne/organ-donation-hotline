@@ -9,6 +9,7 @@ class TransplantCenterLookupService < ApplicationService
     if centers.present?
       centers[rand(centers.count - 1)]
     else
+      raise Errors::InvalidStateError.new('No transplant centers are populated in the database') if TransplantCenter.all.empty?
       TransplantCenter.all[rand(centers.count - 1)]
     end
   end

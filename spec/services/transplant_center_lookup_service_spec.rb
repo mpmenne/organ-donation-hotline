@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'errors'
 
 RSpec.describe TransplantCenterLookupService do
   describe '.call' do
@@ -48,6 +49,13 @@ RSpec.describe TransplantCenterLookupService do
         result = described_class.call('CA')
 
         expect(result.name).to eq('Cedars Sinai Hospital')
+      end
+    end
+
+    context 'when no transplant centers are in the db' do
+      it 'raises an error' do
+        # no centers
+        expect { described_class.call('CA') }.to raise_error(Errors::InvalidStateError)
       end
     end
   end
