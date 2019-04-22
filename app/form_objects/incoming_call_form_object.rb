@@ -22,8 +22,8 @@ class IncomingCallFormObject
       called: @call['Called'],
       call_status: @call['CallStatus'],
       from: @call['From'],
-      from_city: @call['FromCity'],
-      from_state: @call['FromState']
+      from_city: @call['CallerCity'],
+      from_state: @call['CallerState']
     }
   end
 end
