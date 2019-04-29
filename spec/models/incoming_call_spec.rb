@@ -8,4 +8,5 @@ RSpec.describe IncomingCall, type: :model do
   it { should have_db_column :from_number }
   it { should have_db_column :from_city }
   it { should have_db_column :from_state }
+  it { should belong_to(:hotline_number).optional }
 end

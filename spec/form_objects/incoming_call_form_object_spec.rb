@@ -4,8 +4,9 @@ RSpec.describe IncomingCallFormObject do
   describe '#save' do
     context 'when save is success' do
       it 'returns success' do
-        twilio_request = FactoryBot.build(:twilio_incoming_call_request)
-        stub_lookup_service
+        from_number = "+#{Faker::Number.number(11)}"
+        FactoryBot.create(:hotline_number, phone_number: from_number)
+        twilio_request = FactoryBot.build(:twilio_incoming_call_request, phone_number: from_number)
 
         result = described_class.new(twilio_request).save
 
@@ -13,27 +14,18 @@ RSpec.describe IncomingCallFormObject do
       end
 
       it 'returns twixml to call' do
-        twilio_request = FactoryBot.build(:twilio_incoming_call_request)
-        stub_lookup_service
-
-        result = described_class.new(twilio_request).save
-
-        # yeah I know... this is not cool.  still verifyiing at integration test level
-        # twilio-test-helper could be modified to test this
-        expect(result.success).not_to be_nil
-      end
-
-      it 'saves a new incoming call' do
-        twilio_request = FactoryBot.build(:twilio_incoming_call_request)
-        stub_lookup_service
+        from_number = "+#{Faker::Number.number(11)}"
+        FactoryBot.create(:hotline_number, phone_number: from_number)
+        twilio_request = FactoryBot.build(:twilio_incoming_call_request, phone_number: from_number)
 
         expect { described_class.new(twilio_request).save }
           .to change(IncomingCall, :count).by 1
       end
 
       it 'saves everythhing that needs to be saved' do
-        twilio_request = FactoryBot.build(:twilio_incoming_call_request)
-        stub_lookup_service
+        from_number = "+#{Faker::Number.number(11)}"
+        FactoryBot.create(:hotline_number, phone_number: from_number)
+        twilio_request = FactoryBot.build(:twilio_incoming_call_request, phone_number: from_number)
 
         described_class.new(twilio_request).save
 
@@ -47,13 +39,22 @@ RSpec.describe IncomingCallFormObject do
         expect(incoming_call.from_state).to eq 'MO'
       end
 
-      it 'should dial the nearest transplant center' do
+      it 'saves the hotline if exists' do
+        from_number = "+#{Faker::Number.number(11)}"
+        hotline_number = FactoryBot.create(:hotline_number, phone_number: from_number)
+        twilio_request = FactoryBot.build(:twilio_incoming_call_request, phone_number: from_number)
+
+        described_class.new(twilio_request).save
+
+        incoming_call = IncomingCall.first
+        expect(incoming_call.hotline_number).to eq hotline_number
+      end
+
+      it 'should dial the hotline transplant center' do
+        from_number = "+#{Faker::Number.number(11)}"
         center = FactoryBot.build(:transplant_center)
-        twilio_request = FactoryBot.build(:twilio_incoming_call_request)
-        service_stub = stub_lookup_service
-        allow(service_stub).to receive(:call)
-          .with(twilio_request['FromState'])
-          .and_return(center)
+        hotline_number = FactoryBot.create(:hotline_number, phone_number: from_number, transplant_center: center)
+        twilio_request = FactoryBot.build(:twilio_incoming_call_request, phone_number: from_number)
 
         result = described_class.new(twilio_request).save
 

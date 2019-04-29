@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_18_063201) do
+ActiveRecord::Schema.define(version: 2019_04_29_103610) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "hotline_numbers", force: :cascade do |t|
+    t.string "phone_number"
+    t.bigint "transplant_center_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["transplant_center_id"], name: "index_hotline_numbers_on_transplant_center_id"
+  end
 
   create_table "incoming_calls", force: :cascade do |t|
     t.string "call_sid"
@@ -25,6 +33,8 @@ ActiveRecord::Schema.define(version: 2019_04_18_063201) do
     t.string "from_state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "hotline_number_id"
+    t.index ["hotline_number_id"], name: "index_incoming_calls_on_hotline_number_id"
   end
 
   create_table "transplant_centers", force: :cascade do |t|
@@ -35,6 +45,9 @@ ActiveRecord::Schema.define(version: 2019_04_18_063201) do
     t.string "state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "address"
   end
 
+  add_foreign_key "hotline_numbers", "transplant_centers"
+  add_foreign_key "incoming_calls", "hotline_numbers"
 end

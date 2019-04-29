@@ -65,9 +65,10 @@ end
 
 group :test do
   gem 'capybara'
+  gem 'database_cleaner'
   gem 'faker'
   gem 'rails-controller-testing'
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', '~> 4.0'
   gem 'twilio-test-toolkit-hs', github: 'healthsherpa/twilio-test-toolkit'
   gem 'webdrivers', '~> 3.0'
 end
