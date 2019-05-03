@@ -23,24 +23,22 @@ RSpec.describe IncomingCallFormObject do
       end
 
       it 'saves everythhing that needs to be saved' do
-        Timecop.freeze do
-          time_now = Time.zone.now
-          from_number = "+#{Faker::Number.number(11)}"
-          FactoryBot.create(:hotline_number, phone_number: from_number)
-          twilio_request = FactoryBot.build(:twilio_incoming_call_request, phone_number: from_number)
+        time_now = Time.zone.now
+        from_number = "+#{Faker::Number.number(11)}"
+        FactoryBot.create(:hotline_number, phone_number: from_number)
+        twilio_request = FactoryBot.build(:twilio_incoming_call_request, phone_number: from_number)
 
-          described_class.new(twilio_request).save
+        described_class.new(twilio_request).save
 
-          incoming_call = IncomingCall.first
-          expect(incoming_call.call_sid).to eq twilio_request['CallSid']
-          expect(incoming_call.called).to eq twilio_request['Called']
-          expect(incoming_call.call_status).to eq twilio_request['CallStatus']
-          expect(incoming_call.from).to eq twilio_request['From']
-          expect(incoming_call.from_number).to eq twilio_request['FromNumber']
-          expect(incoming_call.from_city).to eq 'SAINT LOUIS'
-          expect(incoming_call.from_state).to eq 'MO'
-          expect(incoming_call.call_time).to eq time_now
-        end
+        incoming_call = IncomingCall.first
+        expect(incoming_call.call_sid).to eq twilio_request['CallSid']
+        expect(incoming_call.called).to eq twilio_request['Called']
+        expect(incoming_call.call_status).to eq twilio_request['CallStatus']
+        expect(incoming_call.from).to eq twilio_request['From']
+        expect(incoming_call.from_number).to eq twilio_request['FromNumber']
+        expect(incoming_call.from_city).to eq 'SAINT LOUIS'
+        expect(incoming_call.from_state).to eq 'MO'
+        expect(incoming_call.call_time).not_to be_nil
       end
 
       it 'saves the hotline if exists' do
