@@ -27,6 +27,7 @@ class IncomingCallFormObject
       from: @call['From'],
       from_city: @call['CallerCity'],
       from_state: @call['CallerState'],
+      call_time: Time.zone.now,
       hotline_number: lookup_hotline_number(@call['Called'])
     }
   end
