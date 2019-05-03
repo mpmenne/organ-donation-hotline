@@ -8,7 +8,6 @@ class CreateHotlineNumbers < ActiveRecord::Migration[5.2]
     end
     change_table :incoming_calls do |t|
       t.references :hotline_number, foreign_key: true
-      t.datetime :call_time
     end
   end
 end
