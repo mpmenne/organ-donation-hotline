@@ -4,4 +4,5 @@ Rails.application.routes.draw do
       resources :incoming_calls, except: [:index, :new, :update, :show, :destroy]
     end
   end
+  get '/dashboard/(:phone_number)', to: 'dashboard#show'
 end

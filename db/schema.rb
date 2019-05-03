@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 2019_04_29_103610) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "hotline_number_id"
+    t.datetime "call_time"
     t.index ["hotline_number_id"], name: "index_incoming_calls_on_hotline_number_id"
   end
 

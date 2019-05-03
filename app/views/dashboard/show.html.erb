@@ -1,0 +1,19 @@
+<div class="jumbotron">
+	<div class="container">
+		<h1 class="display-3"><%= format_phone(@hotline.phone_number) %></h1>
+		<p>That's your phone number.  It connects to the <b><%= @hotline.transplant_center.name %> Transplant Center</b>.  Ask your family, friends, and acquiantances to call this number and get tested to become a living kidney donor.</p>
+		<p>The more people that call, the better chance you have of finding a match!</p>
+		<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>
+	</div>
+</div>
+<div class="container">
+	<h2>You have had <span class="p-3 mb-2 bg-success text-white"><%= pluralize(@hotline.incoming_calls.count, 'person') %></span> call to be tested to be a living kidney donor</h2>
+
+	<br/>
+	<br/>
+	<% @hotline.incoming_calls.each do |call| %>
+			<div>
+				<p><b><%= format_date(call.call_time.to_date) %></b>....from <%= mask_phone(format_phone(call.from)) %></p>
+		</div>
+	<% end %>
+</div>

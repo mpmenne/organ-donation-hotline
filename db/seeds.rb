@@ -21,9 +21,28 @@
     state: 'MO'
   )
   TransplantCenter.create(
-    name: 'Cedars Sinai Hospical',
+    name: 'Cedars Sinai Hospital',
     phone_number: '+13104232641',
     area_code: '310',
     city: 'Los Angeles',
     state: 'CA'
   )
+
+  if Rails.env.production?
+    HotlineNumber.create(
+      phone_number: '+18553831269',
+      transplant_center: TransplantCenter.find_by(name: 'Cedars Sinai Hospital')
+    )
+
+    HotlineNumber.create(
+      phone_number: '+18884402713',
+      transplant_center: TransplantCenter.find_by(name: 'Saint Louis University Hospital')
+    )
+  elsif
+
+    HotlineNumber.create(
+      phone_number: '+18446882880',
+      transplant_center: TransplantCenter.find_by(name: 'Saint Louis University Hospital')
+    )
+
+  end
