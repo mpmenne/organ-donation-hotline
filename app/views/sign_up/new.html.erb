@@ -1,0 +1,10 @@
+<div class="jumbotron">
+	<div class="container">
+		<h1 class="display-3">Sign Up</h1>
+    <p>This free to use.  It's under active development. By signing up, you agree that the creator of this software cannot be held liable for any damages while using this software.  </p>
+    <%= form_for @sign_up, url: { action: 'create' }  do |form| %>
+    Email Address: <%= form.text_field :email_address %> 
+    <%= form.submit 'Sign Up' %>
+    <% end %>
+	</div>
+</div>

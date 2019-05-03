@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get '/sign_up', to: 'sign_up#new'
+  post '/sign_up', to: 'sign_up#create'
   root 'home#index'
   namespace 'api' do
     namespace 'v1' do
