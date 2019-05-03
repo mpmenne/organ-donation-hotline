@@ -8,3 +8,15 @@
 		<p><a class="btn btn-primary btn-lg" href="sign_up" role="button">Sign Up »</a></p>
 	</div>
 </div>
+ 
+<% @hotlines&.each do |hotline| %>
+  <div class="container">
+    <h2>Active Phone Numbers</h2>
+    <div class="row">
+      <div class="col-md-4">
+        <h3><%= format_phone(hotline.phone_number) %></h3>
+        <p><%= pluralize(hotline.incoming_calls.count, 'Call') %></p>
+      </div>
+    </div> 
+  </div>
+<% end %>
