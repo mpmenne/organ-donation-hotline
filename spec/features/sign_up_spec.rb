@@ -8,6 +8,6 @@ RSpec.describe 'New people signing up' do
 
     click_button 'Sign Up'
 
-    expect(page.text).to have_content 'Thank you'
+    expect(page.text).to have_content 'Thank you!'
   end
 end
